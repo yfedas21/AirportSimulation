@@ -139,6 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DepartureQueue.h" />
+    <ClInclude Include="LandingQueue.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="ServiceQueue.h" />
+    <ClInclude Include="Simulator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
