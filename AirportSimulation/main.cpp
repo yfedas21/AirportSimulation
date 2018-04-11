@@ -8,5 +8,7 @@ int main() {
 	airport.run_simulation();
 	airport.show_stats();
 
+	system("PAUSE");
+
 	return 0;
 }
