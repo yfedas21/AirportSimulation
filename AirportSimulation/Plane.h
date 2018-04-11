@@ -4,7 +4,7 @@
 /** A plane has attributes to keep track of
 1. when it arrived
 2. when it begins servicing
-3. the time this plane needs to be serviced
+3. the time this plane needs to be serviced (I'm guessing this means how long???)
 4. when it enters the departure queue
 5. when it is ready to take off
 */
@@ -15,8 +15,8 @@ struct Plane
 	{}
 
 	int arrival_time;
-	int service_time;
 	int start_service_time;
+	int service_time;
 	int enter_departure_time;
 	int ready_takeoff_time;
 	
