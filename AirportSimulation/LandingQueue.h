@@ -12,7 +12,7 @@ extern Random my_random;  // Enables us to access the global variable declared i
 class LandingQueue
 {
 private:
-	double arrival_rate;            // plane arrival rate per minute
+	double arrival_rate;            // plane arrival rate per minute (set in Simulator.h)
 	std::queue<Plane *> the_queue;  // queue of planes in the landing queue
 	int total_wait;  // total accumulated wait time in the landing queue
 	int num_served;  // number of planes served through the landing queue
@@ -34,7 +34,7 @@ public:
 
 	void update(int clock)
 	{
-		/* FIXME:  add a new plane into the landing queue based on the arrival_rate
+		/* add a new plane into the landing queue based on the arrival_rate
 		HINT: my_random.next_double() returns a random value between 0 and 1.
 		Read how the the simulation described in the book does this
 		(section 6.5 pages. 392-393).

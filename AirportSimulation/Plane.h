@@ -14,11 +14,12 @@ struct Plane
 		arrival_time(clock), start_service_time(-1), service_time(-1), ready_takeoff_time(-1), enter_departure_time(-1)
 	{}
 
-	int service_time;
 	int arrival_time;
+	int service_time;
 	int start_service_time;
-	int ready_takeoff_time;
 	int enter_departure_time;
+	int ready_takeoff_time;
+	
 };
 
 #endif

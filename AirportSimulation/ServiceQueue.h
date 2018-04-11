@@ -9,9 +9,10 @@
 
 extern Random my_random; // Enables us to access the global variable declared in Simulator.h
 
-						 /** The service queue takes a plane from the landing queue and adds it to its queue.
-						 When a plane in service queue has finished being serviced, it will be placed in the departure queue.
-						 */
+/** 
+	The service queue takes a plane from the landing queue and adds it to its queue.
+	When a plane in service queue has finished being serviced, it will be placed in the departure queue.
+*/
 class ServiceQueue
 {
 private:
@@ -40,15 +41,13 @@ public:
 		// there is a plane at the gate
 		if (!the_queue.empty()) {
 
-			Plane *plane = the_queue.front();
+			Plane *plane = the_queue.front(); // The first plane in the queue
 
 			// check if a plane is ready to move from the service queue to the departure queue
 			if ((clock - plane->start_service_time) > plane->service_time) {
-				// FIXME: remove plane from the service queue
+				the_queue.pop();
 
-
-				// FIXME: update the enter_departure_time attribute for the plane
-
+				plane->enter_departure_time = clock; // See if this works...
 
 				departure_queue->the_queue.push(plane);
 			}
