@@ -40,7 +40,9 @@ public:
 		(section 6.5 pages. 392-393).
 		Look at the Passenger_Queue::check_new_arrival() method
 		*/
-
+		if (my_random.next_double() < arrival_rate) {
+			the_queue.push(new Plane(clock));
+		}
 
 	}
 
