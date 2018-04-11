@@ -62,18 +62,13 @@ public:
 				Plane *plane = landing_queue->the_queue.front();
 				landing_queue->the_queue.pop();
 
-				// ?????
 				// calculate the wait time of the plane in the landing queue
-				// The plane in the landing queue will need to wait the same amount
-				// of time it takes for the plane that is currently in the service queue
-				// to be serviced. This value is set in the Plane struct. 
-				// ?????
 				
 				/* compute a random service time for the plane between min_service_time and max_service_time
 				HINT: You can use my_random.next_int(n) to get a random value between 0 and n.  This will help
 				you determine a random number within the range of service times.
 				*/
-				plane->service_time = my_random.next_int((max_service_time - min_service_time) + min_service_time);
+				plane->service_time = my_random.next_int(max_service_time - min_service_time) + min_service_time;
 
 				// update total_wait and num_served for the landing queue
 				landing_queue->total_wait += plane->service_time;

@@ -33,7 +33,9 @@ public:
 			Plane *plane = the_queue.front();
 			if (plane->ready_takeoff_time == -1) { // new plane has arrived at the front
 												   // update the ready_takeoff_time attribute of the plane
-				plane->ready_takeoff_time = clock;
+
+				// wait the specified time before splittin'
+				plane->ready_takeoff_time = plane->enter_departure_time + departure_time; 
 			}
 			else {
 				// compute the time the plane has been waiting at the front
@@ -42,11 +44,12 @@ public:
 
 					the_queue.pop();
 
-					// FIXME: calculate the wait time
+					// calculate the wait time
+					int wait_time = plane->ready_takeoff_time - plane->enter_departure_time;
 
-
-					// FIXME: update total_wait and num_served
-
+					// update total_wait and num_served
+					total_wait += wait_time;
+					num_served++;
 
 
 					// take off!   goodbye plane
