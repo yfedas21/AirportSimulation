@@ -4,8 +4,11 @@
 #include <iostream>
 #include <string>
 #include <queue>
+#include <vector>
 #include "Plane.h"
 #include "Random.h"
+
+using std::vector;
 
 extern Random my_random;  // Enables us to access the global variable declared in Simulator.h
 
@@ -16,6 +19,7 @@ private:
 	std::queue<Plane *> the_queue;  // queue of planes in the landing queue
 	int total_wait;  // total accumulated wait time in the landing queue
 	int num_served;  // number of planes served through the landing queue
+	vector<ServiceQueue *> service_queue_vector;
 
 public:
 	LandingQueue() : total_wait(0), num_served(0) {}
@@ -32,6 +36,14 @@ public:
 		return num_served;
 	}
 
+	void set_service_queue_vector(vector<ServiceQueue *> sqv) {
+		this->service_queue_vector = sqv;
+	}
+
+	vector<ServiceQueue *> get_service_queue_vector() {
+		return service_queue_vector;
+	}
+
 	void update(int clock)
 	{
 		/* add a new plane into the landing queue based on the arrival_rate
@@ -44,7 +56,24 @@ public:
 			the_queue.push(new Plane(clock));
 		}
 
+		if (const service_queue_vector.size() > 1) {
+			// check if any service queues are empty...
+			for (const int i = 0; i < service_queue_vector.size(); i++) {
+				ServiceQueue *sq = service_queue_vector.at(i);
+
+				// if an empty queue is found, push the first plane
+				// in the_queue to the empty service queue 
+				if (sq->get_the_queue().empty()) {
+					sq->get_the_queue().push(the_queue.front());
+					// remove the plane from the_queue once it 
+					// is added to the service queue
+					the_queue.pop();
+				}
+			}
+		}
 	}
+
+	
 
 	friend class ServiceQueue;
 };

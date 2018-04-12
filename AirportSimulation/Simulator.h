@@ -6,10 +6,13 @@
 #include <stdexcept>
 #include <limits>
 #include <ios>
+#include <vector>
 #include "LandingQueue.h"
 #include "ServiceQueue.h"
 #include "DepartureQueue.h"
 #include "Random.h"
+
+using std::vector;
 
 Random my_random;  // Global variable 
 
@@ -18,8 +21,9 @@ class Simulator
 private:
 	int total_time;  // total time to run simulation
 	int clock;       // current time
-
-					 // landing queue --> service queue --> departure queue
+	int number_of_gates;
+					 
+	// landing queue --> service queue --> departure queue
 	LandingQueue *landing_queue;
 	ServiceQueue *service_queue;
 	DepartureQueue *departure_queue;
@@ -71,7 +75,25 @@ public:
 		int min_service = read_int("Please enter the minimum service time (mins): ", 0, INT_MAX);
 		int max_service = read_int("Please enter the maximum service time (mins): ", 0, INT_MAX);
 		int departure_time = read_int("Please enter the departure time (mins): ", 1, INT_MAX);
-		int number_of_gates = read_int("Please enter the number of gates at the airport: ", 1, INT_MAX)
+		number_of_gates = read_int("Please enter the number of gates at the airport: ", 1, INT_MAX);
+
+		// if the number of gates is greater than 1, 
+		// create a gate vector and add the first 
+		// ServiceQueue object to this vector. 
+		if (number_of_gates > 1) {
+			// create a vector that holds service queues 
+			vector<ServiceQueue *> service_queue_vector;
+			// add the first service queue to the vector
+			service_queue_vector.push_back(service_queue);
+
+			// Make the correct number of service queues
+			for (int i = 1; i < number_of_gates; i++) {
+				service_queue_vector.push_back(new ServiceQueue(min_service, max_service, 
+					landing_queue, departure_queue));
+			}
+
+			landing_queue->set_service_queue_vector(service_queue_vector);
+		}
 
 		total_time = read_int("Please enter the simulation time (hours): ", 1, INT_MAX);
 		total_time *= 60;
@@ -88,8 +110,6 @@ public:
 		// set the departure time for the departure queue
 		departure_queue->set_departure_time(departure_time);
 
-		// set the number of service gates
-		service_queue->set_number_of_gates(number_of_gates);
 	}
 
 	void run_simulation()
@@ -99,20 +119,43 @@ public:
 		{
 			// for each time interval ...
 			landing_queue->update(clock);
-			service_queue->update(clock);
+
+			// if there is more than one service queue
+			// in the function (number of gates > 1), 
+			// run the update function on each service queue
+			if (number_of_gates > 1) {
+				vector<ServiceQueue *> sqv = landing_queue->get_service_queue_vector();
+				for (auto service_queue: sqv)
+					service_queue->update(clock);
+			}
+
 			departure_queue->update(clock);
 		}
 	}
 
 	void show_stats()
 	{
+		int num_planes_served_total;
+		int total_planes_service_time;
+
+		vector<ServiceQueue *> sqv = landing_queue->get_service_queue_vector();
+		for (auto s : sqv) {
+			num_planes_served_total += s->get_number_of_planes_served();
+			total_planes_service_time += s->get_total_planes_service_time();
+		}
+
+		std::cout << " -- THE ARRIVAL QUEUE -- " << std::endl;
 		std::cout << "Number of planes served in the arrival queue: " << landing_queue->get_num_served() << std::endl;
 		std::cout << "Total wait time for all planes in arrival queue: " << landing_queue->get_total_wait() << std::endl;
-		std::cout << "The average wait time for the landing queue: " <<
-			landing_queue->get_total_wait() / landing_queue->get_num_served() << std::endl;
+		std::cout << "The average wait time for the arrival queue: " <<
+			landing_queue->get_total_wait() / landing_queue->get_num_served() << std::endl << std::endl;
 
+		std::cout << " -- THE SERVICE QUEUES -- " << std::endl;
+		std::cout << "Number of planes served in all service queues: " << num_planes_served_total << std::endl;
+		std::cout << "Total time spent servicing planes on all gates: " << total_planes_service_time << std::endl;
+		std::cout << "The average servicing time was " << total_planes_service_time / num_planes_served_total << std::endl;
 
-		std::cout << std::endl;
+		std::cout << " -- THE DEPARTURE QUEUE -- " << std::endl;
 		std::cout << "Number of planes served in the departure queue: " << departure_queue->get_num_served() << std::endl;
 		std::cout << "Total wait time for all planes in departure queue: " << departure_queue->get_total_wait() << std::endl;
 		std::cout << "The average wait for the departure queue: " <<
