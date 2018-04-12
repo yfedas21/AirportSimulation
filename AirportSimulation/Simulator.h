@@ -105,15 +105,14 @@ public:
 		std::cout << "Number of planes served in the arrival queue: " << landing_queue->get_num_served() << std::endl;
 		std::cout << "Total wait time for all planes in arrival queue: " << landing_queue->get_total_wait() << std::endl;
 		std::cout << "The average wait time for the landing queue: " <<
-			(landing_queue->get_total_wait() / landing_queue->get_num_served()) << std::endl;
+			landing_queue->get_total_wait() / landing_queue->get_num_served() << std::endl;
 
 
 		std::cout << std::endl;
 		std::cout << "Number of planes served in the departure queue: " << departure_queue->get_num_served() << std::endl;
 		std::cout << "Total wait time for all planes in departure queue: " << departure_queue->get_total_wait() << std::endl;
-		// FIXME: Calculate and display the average wait time for the departure queue
 		std::cout << "The average wait for the departure queue: " <<
-			(departure_queue->get_total_wait() / departure_queue->get_num_served()) << std::endl;
+			departure_queue->get_total_wait() / departure_queue->get_num_served() << std::endl;
 
 		std::cout << std::endl;
 

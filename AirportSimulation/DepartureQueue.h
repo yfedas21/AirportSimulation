@@ -35,7 +35,7 @@ public:
 												   // update the ready_takeoff_time attribute of the plane
 
 				// wait the specified time before splittin'
-				plane->ready_takeoff_time = plane->enter_departure_time + departure_time; 
+				plane->ready_takeoff_time = clock;
 			}
 			else {
 				// compute the time the plane has been waiting at the front
@@ -45,7 +45,7 @@ public:
 					the_queue.pop();
 
 					// calculate the wait time
-					int wait_time = plane->ready_takeoff_time - plane->enter_departure_time;
+					int wait_time = clock - plane->enter_departure_time;
 
 					// update total_wait and num_served
 					total_wait += wait_time;
@@ -57,7 +57,6 @@ public:
 				}
 			}
 		}
-
 	}
 
 	friend class ServiceQueue;
