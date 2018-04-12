@@ -71,6 +71,7 @@ public:
 		int min_service = read_int("Please enter the minimum service time (mins): ", 0, INT_MAX);
 		int max_service = read_int("Please enter the maximum service time (mins): ", 0, INT_MAX);
 		int departure_time = read_int("Please enter the departure time (mins): ", 1, INT_MAX);
+		int number_of_gates = read_int("Please enter the number of gates at the airport: ", 1, INT_MAX)
 
 		total_time = read_int("Please enter the simulation time (hours): ", 1, INT_MAX);
 		total_time *= 60;
@@ -86,6 +87,9 @@ public:
 
 		// set the departure time for the departure queue
 		departure_queue->set_departure_time(departure_time);
+
+		// set the number of service gates
+		service_queue->set_number_of_gates(number_of_gates);
 	}
 
 	void run_simulation()

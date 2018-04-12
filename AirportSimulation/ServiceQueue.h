@@ -20,6 +20,7 @@ private:
 	LandingQueue *landing_queue;             // pointer to the landing queue
 	DepartureQueue *departure_queue;         // pointer to the departure queue
 	std::queue<Plane *> the_queue;           // queue of planes (just ONE) in the service queue
+	int number_of_gates;					 // the number of gates at this airport
 public:
 	ServiceQueue() {}
 
@@ -34,6 +35,10 @@ public:
 
 	void set_departure_queue(DepartureQueue *departure_queue) {
 		this->departure_queue = departure_queue;
+	}
+
+	void set_number_of_gates(int number_of_gates) {
+		this->number_of_gates = number_of_gates;
 	}
 
 	void update(int clock)
