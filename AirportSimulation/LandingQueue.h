@@ -8,8 +8,6 @@
 #include "Plane.h"
 #include "Random.h"
 
-using std::vector;
-
 extern Random my_random;  // Enables us to access the global variable declared in Simulator.h
 
 class LandingQueue
@@ -19,7 +17,7 @@ private:
 	std::queue<Plane *> the_queue;  // queue of planes in the landing queue
 	int total_wait;  // total accumulated wait time in the landing queue
 	int num_served;  // number of planes served through the landing queue
-	vector<ServiceQueue *> service_queue_vector;
+	std::vector<ServiceQueue*> service_queue_vector;
 
 public:
 	LandingQueue() : total_wait(0), num_served(0) {}
@@ -36,7 +34,7 @@ public:
 		return num_served;
 	}
 
-	void set_service_queue_vector(vector<ServiceQueue *> sqv) {
+	void set_service_queue_vector(vector<ServiceQueue *> &sqv) {
 		this->service_queue_vector = sqv;
 	}
 
@@ -56,9 +54,9 @@ public:
 			the_queue.push(new Plane(clock));
 		}
 
-		if (const service_queue_vector.size() > 1) {
+		if (service_queue_vector.size() > 1) {
 			// check if any service queues are empty...
-			for (const int i = 0; i < service_queue_vector.size(); i++) {
+			for (int i = 0; i < service_queue_vector.size(); i++) {
 				ServiceQueue *sq = service_queue_vector.at(i);
 
 				// if an empty queue is found, push the first plane

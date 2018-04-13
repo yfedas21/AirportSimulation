@@ -25,8 +25,12 @@ private:
 public:
 	ServiceQueue() {}
 
-	ServiceQueue(int min, int max, LandingQueue *lq, DepartureQueue *dq) :
-		min_service_time(min), max_service_time(max), landing_queue(lq), departure_queue(dq) {}
+	ServiceQueue(int min, int max, LandingQueue &lq, DepartureQueue &dq) {
+		this->min_service_time = min;
+		this->max_service_time = max;
+		this->landing_queue = lq;
+		this->departure_queue = dq;
+	}
 
 	void set_service_times(int min_service_time, int max_service_time) {
 		this->min_service_time = min_service_time;

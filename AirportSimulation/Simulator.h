@@ -77,24 +77,6 @@ public:
 		int departure_time = read_int("Please enter the departure time (mins): ", 1, INT_MAX);
 		number_of_gates = read_int("Please enter the number of gates at the airport: ", 1, INT_MAX);
 
-		// if the number of gates is greater than 1, 
-		// create a gate vector and add the first 
-		// ServiceQueue object to this vector. 
-		if (number_of_gates > 1) {
-			// create a vector that holds service queues 
-			vector<ServiceQueue *> service_queue_vector;
-			// add the first service queue to the vector
-			service_queue_vector.push_back(service_queue);
-
-			// Make the correct number of service queues
-			for (int i = 1; i < number_of_gates; i++) {
-				service_queue_vector.push_back(new ServiceQueue(min_service, max_service, 
-					landing_queue, departure_queue));
-			}
-
-			landing_queue->set_service_queue_vector(service_queue_vector);
-		}
-
 		total_time = read_int("Please enter the simulation time (hours): ", 1, INT_MAX);
 		total_time *= 60;
 
@@ -106,6 +88,25 @@ public:
 		// pass references to the landing and departure queue to the service queue
 		service_queue->set_landing_queue(landing_queue);
 		service_queue->set_departure_queue(departure_queue);
+
+		// if the number of gates is greater than 1, 
+		// create a gate vector and add the first 
+		// ServiceQueue object to this vector. 
+		if (number_of_gates > 1) {
+			// create a vector that holds service queues 
+			vector<ServiceQueue *> service_queue_vector;
+			// add the first service queue to the vector
+			service_queue_vector.push_back(service_queue);
+
+			// Make the correct number of service queues
+			for (int i = 1; i < number_of_gates; i++) {
+				ServiceQueue *addl_gates = new ServiceQueue(min_service, max_service,
+					landing_queue, departure_queue);
+				service_queue_vector.push_back(addl_gates));
+			}
+
+			landing_queue->set_service_queue_vector(service_queue_vector);
+		}
 
 		// set the departure time for the departure queue
 		departure_queue->set_departure_time(departure_time);

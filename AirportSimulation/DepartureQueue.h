@@ -51,7 +51,6 @@ public:
 					total_wait += wait_time;
 					num_served++;
 
-
 					// take off!   goodbye plane
 					delete plane;
 				}
