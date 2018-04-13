@@ -128,6 +128,9 @@ public:
 				for (auto service_queue: sqv)
 					service_queue->update(clock);
 			}
+			else {
+				service_queue->update(clock);
+			}
 
 			departure_queue->update(clock);
 		}
