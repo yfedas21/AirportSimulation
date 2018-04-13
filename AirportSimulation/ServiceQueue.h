@@ -20,17 +20,17 @@ private:
 	LandingQueue *landing_queue;             // pointer to the landing queue
 	DepartureQueue *departure_queue;         // pointer to the departure queue
 	std::queue<Plane *> the_queue;           // queue of planes (just ONE) in the service queue
-	int number_of_planes_served;
-	int total_planes_service_time;
+	//int number_of_planes_served;
+	//int total_planes_service_time;
 public:
 	ServiceQueue() {}
 
-	ServiceQueue(int min, int max, LandingQueue &lq, DepartureQueue &dq) {
+	/*ServiceQueue(int min, int max, LandingQueue *lq, DepartureQueue *dq) {
 		this->min_service_time = min;
 		this->max_service_time = max;
 		this->landing_queue = lq;
 		this->departure_queue = dq;
-	}
+	}*/
 
 	void set_service_times(int min_service_time, int max_service_time) {
 		this->min_service_time = min_service_time;
@@ -45,21 +45,21 @@ public:
 		this->departure_queue = departure_queue;
 	}
 
-	void set_number_of_gates(int number_of_gates) {
+	/*void set_number_of_gates(int number_of_gates) {
 		this->number_of_gates = number_of_gates;
-	}
+	}*/
 
 	std::queue<Plane *> get_the_queue() {
 		return the_queue;
 	}
 
-	int get_number_of_planes_served() {
+	/*int get_number_of_planes_served() {
 		return number_of_planes_served;
 	}
 	 
 	int get_total_planes_service_time() {
 		return total_planes_service_time;
-	}
+	}*/
 
 	void update(int clock)
 	{
@@ -75,7 +75,7 @@ public:
 				plane->enter_departure_time = clock; 
 
 				departure_queue->the_queue.push(plane);
-				number_of_planes_served++;
+				//number_of_planes_served++;
 			}
 		}
 
@@ -96,7 +96,7 @@ public:
 				you determine a random number within the range of service times.
 				*/
 				plane->service_time = my_random.next_int(max_service_time - min_service_time) + min_service_time;
-				total_planes_service_time += plane->service_time;
+				//total_planes_service_time += plane->service_time;
 
 				// update total_wait and num_served for the landing queue
 				landing_queue->total_wait += wait_time;
